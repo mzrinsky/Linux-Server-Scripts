@@ -57,6 +57,15 @@ ipset_save.bash
 A simple script which downloads block lists of ip addresses using curl, and uses the `ipset_generate.bash` and `ipset_save.bash` scripts to import them and save them.
 Can be installed under `/etc/cron.daily/` etc. to automate the updating of block lists.
 
+```bash
+# to make use of these sets you will need some iptables rules like the following.
+# which will drop incoming packets on interface enp0s25 where the src matches the imported ipsets.
+# be sure to adjust your interface accordingly
+-A INPUT -i enp0s25 -m set --match-set ipsum src -j DROP
+-A INPUT -i enp0s25 -m set --match-set research src -j DROP
+-A INPUT -i enp0s25 -m set --match-set blocklistde src -j DROP
+```
+
 ### ipset.service
 
 A systemd service to save and restore ipsets.
