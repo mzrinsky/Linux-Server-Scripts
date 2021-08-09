@@ -1,0 +1,11 @@
+[Unit]
+Description=ipset persistent rule service
+Before=firewalld.service netfilter-persistent.service
+ConditionFileNotEmpty=/etc/sysconfig/ipset
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/sbin/ipset -exist -file /etc/sysconfig/ipset restore
+ExecStop=/bin/bash -c "/usr/sbin/ipset_save.bash"
+[Install]
+WantedBy=multi-user.target

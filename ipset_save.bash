@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Written by Matt Zrinsky <matt.zrinsky@gmail.com>
+# Lives @ https://github.com/mzrinsky/Linux-Server-Scripts
+
 if [ "$EUID" -ne 0 ] 
   then echo "This script must be run as root."
   exit

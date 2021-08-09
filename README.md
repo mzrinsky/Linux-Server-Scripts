@@ -6,9 +6,10 @@ If you find these useful, consider showing you care.
 
 <a href='https://ko-fi.com/A0A74VYT1' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
+
 ### ipset_add.bash
 
-A helper script to add an address to an ipset if it does NOT already match in the set.
+A helper script to add an address to an ipset if it does NOT already match the set.
 
 Usage:
 ```bash
@@ -19,7 +20,7 @@ ipset_add.bash <set_name> <address>
 ### ipset_generate.bash
 
 This script will generate an ipset from a file of ip addresses.
-It will convert addresses ending in .0 to a /24 and avoid adding any duplicates or addresses which already match.
+It will convert addresses ending in .0 to a /24 and avoid adding any duplicates or addresses which already match the set.
 
 example: `1.2.3.0` will be converted to `1.2.3.0/24` and `1.2.3.2` would not be added to the set, as it already matches `1.2.3.0/24`.
 
@@ -39,7 +40,7 @@ ipset_generate.bash <set_name> <address_file>
 
 ### ipset_save.bash
 
-Save all ipsets to a file.
+Save **ALL** ipsets to a file.
 IPsets starting with `f2b-` or `tmp-` will be ignored. (fail2ban saves and restores it's own sets and tmp- sets are temporary..)
 
 Usage:
@@ -50,3 +51,14 @@ ipset_save.bash <filename>
 # if no filename is given ipsets will be saved to /etc/sysconfig/ipset
 ipset_save.bash
 ```
+
+### update-blocklists.bash
+
+A simple script which downloads block lists of ip addresses using curl, and uses the `ipset_generate.bash` and `ipset_save.bash` scripts to import them and save them.
+Can be installed under `/etc/cron.daily/` etc. to automate the updating of block lists.
+
+### ipset.service
+
+A systemd service to save and restore ipsets.
+By default it saves and loads from `/etc/sysconfig/ipset` and uses `ipset_save.bash` to avoid saving `f2b-` and `tmp-` sets.
+
